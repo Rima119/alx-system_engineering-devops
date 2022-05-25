@@ -1,1 +1,1 @@
-My fisrt readme
+#!/bin/bash
