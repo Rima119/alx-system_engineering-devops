@@ -2,7 +2,7 @@
 # displays Best School 10 times, but for the 9th iteration displays Hi
 
 a=0
-while [ $a -le 10 ]
+while [ $a -lt 10 ]
 do
 	if [ $a -eq 9 ]
 	then
