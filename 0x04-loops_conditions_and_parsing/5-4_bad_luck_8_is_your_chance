@@ -4,7 +4,7 @@
 # displays good luck for the 8th loop iteration
 # displays Best School for the other iterations
 
-a=0
+a=1
 while [ $a -le 10 ]
 do
 	if [ $a -eq 4 ]
