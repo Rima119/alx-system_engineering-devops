@@ -23,7 +23,7 @@ int infinite_while(void)
  */
 int main(void)
 {
-	int n;
+	char n;
 
 	for (n = 0; n < 5; n++)
 	{
