@@ -2,7 +2,16 @@
 # script containing commands to automatically configure a Ubuntu machine
 sudo apt-get update -y
 sudo apt-get install nginx -y
-sudo chown -R "$USER":"$USER" /var/www/html
-echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html
-sudo sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+sudo ufw allow 'Nginx HTTP'
+echo "Hello World!" | sudo tee /etc/nginx/html/index.html
+sudo printf %s "server {
+             listen 80 default_server;
+	     listen [::]:80 default_server;
+	     root   /etc/nginx/html;
+	     index  index.html index.htm;
+
+	     location /redirect_me {
+	              return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+	      }
+}" > /etc/nginx/sites-available/default
 sudo service nginx restart

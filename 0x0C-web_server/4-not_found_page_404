@@ -3,11 +3,25 @@
 # that contains the string Ceci n'est pas une page
 sudo apt-get update -y
 sudo apt-get install nginx -y
-chown -R "$USER":"$USER" /var/www/html
-echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html
-new_string='server_name _;\n\n\trewrite \^\/redirect_me https:\/\/www.youtube.com\/watch\?v=QH2-TGUlwu4 permanent;/'
-sudo sed -i "s/server_name _;\$/${new_string}" /etc/nginx/sites-available/default
-sudo sed -i "s/^\t\}$/\t\}\n\n\terror_page 404 \/404.html;/" /etc/nginx/sites-available/default
-sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+sudo ufw allow 'Nginx HTTP'
+echo "Hello World!" | sudo tee /etc/nginx/html/index.html
+touch /etc/nginx/html/404.html
+echo "Ceci n'est pas une page" | sudo tee /etc/nginx/html/404.html
+sudo printf %s "server {
+        listen 80 default_server;
+	listen [::]:80 default_server;
+	root   /etc/nginx/html;
+	index  index.html index.htm;
+
+	location /redirect_me {
+	        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+	}
+
+        error_page 404 /404.html;
+	location /not-found {
+	        root /etc/nginx/html;
+		internal;
+	}
+}" > /etc/nginx/sites-available/default
+
 sudo service nginx restart
