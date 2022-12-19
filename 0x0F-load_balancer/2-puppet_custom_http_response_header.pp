@@ -16,6 +16,6 @@ exec { 'update':
   match  => '^\tlocation / {',
 }
 
-exec {'restart nginx':
+-> exec {'restart nginx':
   command  => 'sudo service nginx restart',
 }
