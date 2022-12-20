@@ -1,22 +1,22 @@
 # Add a custom HTTP header with Puppet
 
 exec { 'update':
-  command  => 'sudo apt update',
+  command  => 'sudo apt-get -y update',
+  before   => Exec['install Nginx'],
 }
 
-package {'nginx':
-  ensure => installed,
+exec {'install Nginx':
+  command  => 'sudo apt-get -y install nginx',
+  before   => Exec['header-line'],
 }
 
-exec {'restart nginx':
+exec {'restart Nginx':
   command => 'sudo service nginx restart',
 }
 
--> file_line('line'):
-  ensure  => 'present',
-  path    => '/etc/nginx/sites-available/default',
-  line   => '	server_name _;
-    add_header X-Served-By $hostname;',
-  match   => 'server_name _;',
-  require => Exec['restart nginx']
+exec { 'header-line':
+  environment => ["HOST=${hostname}"],
+  command     => 'sudo sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOST\";/"
+  /etc/nginx/nginx.conf',
+  require => Exec['restart Nginx']
 }
