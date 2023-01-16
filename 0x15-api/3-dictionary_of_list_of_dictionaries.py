@@ -5,7 +5,7 @@ import requests
 
 
 if __name__ == '__main__':
-    url = "https://jsonplaceholder.typicode.com/users/{}"
+    url = "https://jsonplaceholder.typicode.com/users"
     user_name = requests.get(url, verify=False).json()
     list_tasks = {}
     for user in user_name:
