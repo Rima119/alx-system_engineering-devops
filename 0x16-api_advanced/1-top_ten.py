@@ -11,7 +11,7 @@ def top_ten(subreddit):
     url = 'https://reddit.com/r/{}/top.json'.format(subreddit)
     response = requests.get(url, headers=header, allow_redirects=False)
     if response.status_code == 200:
-        post_list = response.json()['data']['children'
+        post_list = response.json()['data']['children']
         for idx, post in enumerate(post_list):
             print(post['data']['title'])
             if idx == 9:
