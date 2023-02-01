@@ -15,9 +15,9 @@ def count_words(subreddit, word_list, word_count={}, after=None):
         return None
     info = sub_info.json()
     hot_list = [child.get("data").get("title")
-             for child in info
-             .get("data")
-             .get("children")]
+                for child in info
+                .get("data")
+                .get("children")]
     if not hot_list:
         return None
     word_list = list(dict.fromkeys(word_list))
